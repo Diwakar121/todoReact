@@ -1,25 +1,52 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/Header';
+import CreateToDo from './components/CreateToDo';
+import React, { Component } from 'react';
+import ShowTodos from './components/ShowTodos';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+export default class App extends Component {
+
+constructor(){
+ super();
+  this.state={todoList:[]}
+  
+}
+updateListWith =(task)=>{
+  console.log(task);
+  let tempList =[task,...this.state.todoList];
+   
+  this.setState({todoList:tempList});
+
+}
+componentDidUpdate=()=>{
+  console.log("updating");
+  console.log(this.state.todoList);
+}
+componentDidMount=()=>{
+  console.log("InitialList");
+}
+deleteTaskAt =(indx)=>{
+let l= this.state.todoList.length;
+let tempList1 = this.state.todoList.slice(0,indx);
+let templist2 = this.state.todoList.slice(indx+1,l);
+
+this.setState({todoList:[...tempList1,...templist2]});
+ 
 }
 
-export default App;
+  render() {
+    return(
+      <div className="App">
+      <Header/>
+      <CreateToDo updateListWith={this.updateListWith}/>
+      <ShowTodos todoList={this.state.todoList} deleteTaskAt={this.deleteTaskAt}/>
+
+    </div>
+    );;
+  
+  }
+}
+
+
